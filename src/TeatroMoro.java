@@ -46,12 +46,9 @@ public class TeatroMoro {
 
             System.out.println("\n=== MENÚ PRINCIPAL ===");
             System.out.println("1. Comprar entradas");
-            System.out.println("2. Reservar entradas");
-            System.out.println("3. Convertir reserva a compra");
-            System.out.println("4. Modificar última venta");
-            System.out.println("5. Imprimir última boleta");
-            System.out.println("6. Mostrar estadísticas");
-            System.out.println("7. Salir");
+            System.out.println("2. Imprimir ultima boleta");
+            System.out.println("3. Resumen de ventas");
+            System.out.println("4. Salir");
 
             TimeUnit.SECONDS.sleep(1);
 
