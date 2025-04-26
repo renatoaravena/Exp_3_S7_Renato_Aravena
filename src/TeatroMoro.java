@@ -77,7 +77,7 @@ public class TeatroMoro {
     } //MENU PRINCIPAL
 
 
-    private static void comprarEntradas(Scanner scanner) {
+    private static void comprarEntradas(Scanner scanner) throws InterruptedException {
 
 
         //Lista de la compra, la cual estara de tal forma
@@ -99,8 +99,6 @@ public class TeatroMoro {
 
         // Seleccionar tipo de entrada
         boolean zonaValida = false;
-        String zona = "";
-        int precioBase = 0;
 
         while (!zonaValida) {
             System.out.print("\nSeleccione el tipo de entrada (1-4): ");
@@ -108,31 +106,23 @@ public class TeatroMoro {
 
             switch (tipo) {
                 case "1":
-                    zona = "VIP";
-                    precioBase = PRECIO_VIP;
-                    compra.add(zona);
-                    compra.add(precioBase);
+                    compra.add("VIP");
+                    compra.add(PRECIO_VIP);
                     zonaValida = true;
                     break;
                 case "2":
-                    zona = "PLATEA ALTA";
-                    precioBase = PRECIO_PLATEA_ALTA;
-                    compra.add(zona);
-                    compra.add(precioBase);
+                    compra.add("Platea Alta");
+                    compra.add(PRECIO_PLATEA_ALTA);
                     zonaValida = true;
                     break;
                 case "3":
-                    zona = "PLATEA BAJA";
-                    precioBase = PRECIO_PLATEA_BAJA;
-                    compra.add(zona);
-                    compra.add(precioBase);
+                    compra.add("Platea Baja");
+                    compra.add(PRECIO_PLATEA_BAJA);
                     zonaValida = true;
                     break;
                 case "4":
-                    zona = "PALCOS";
-                    precioBase = PRECIO_PALCOS;
-                    compra.add(zona);
-                    compra.add(precioBase);
+                    compra.add("Palcos");
+                    compra.add(PRECIO_PALCOS);
                     zonaValida = true;
                     break;
                 default:
@@ -192,16 +182,52 @@ public class TeatroMoro {
 
 
         // Calcular total
-        double precioFinal = precioBase * (1 - descuento);
+        double precioFinal = (int) compra.get(1) * (1 - (double)compra.get(2));
         compra.add(precioFinal);
 
         // Confirmar compra
         System.out.println("\nResumen de compra:");
-        System.out.println("Tipo: " + zona);
+        System.out.println("Tipo: " + compra.getFirst());
         if (descuento > 0) {
             System.out.println("Descuento aplicado: " + (descuento * 100) + "%");
         }
         System.out.println("Total a pagar: $" + String.format("%.0f", precioFinal));
+
+        String confirmación;
+
+        do {
+
+            System.out.print("\n¿Confirmar compra? (Si/No): ");
+
+            confirmación = scanner.nextLine();
+
+            if (confirmación.equalsIgnoreCase("Si")) {
+
+                // Actualizar disponibilidad
+                entradasDisponibles -= 1;
+                entradasVendidas += 1;
+                ingresosTotales += precioFinal;
+
+                // Registrar última transacción
+                System.out.println("\n=== COMPRA EXITOSA ===");
+                System.out.println("Imprimiendo boleta...");
+                TimeUnit.SECONDS.sleep(2);
+
+                System.out.println("-------------------------------");
+                System.out.println("          TEATRO MORO          ");
+                System.out.println("-------------------------------");
+                System.out.println("Ubicación: " + compra.getFirst());
+                System.out.println("");
+
+
+                break;
+            } else if (confirmación.equalsIgnoreCase("No")) {
+                System.out.println("Compra cancelada.");
+                break;
+            } else {
+                System.out.println("Opción inválida. Intente nuevamente.");
+            }
+        }while (!confirmación.equalsIgnoreCase("Si") && !confirmación.equalsIgnoreCase("No"));
 
 
     }
