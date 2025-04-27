@@ -1,6 +1,4 @@
 import java.util.Scanner;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.List;
 import java.util.ArrayList;
@@ -23,7 +21,7 @@ public class TeatroMoro {
     //Variables de control
     private static int entradasDisponibles = CAPACIDAD_TOTAL;
     private static int entradasVendidas = 0;
-    private static double ingresosTotales = 0;
+    private static int ingresosTotales = 0;
 
     //Lista para almacenar las entradas vendidas con sus datos(dentro de esta lista habrán listas con los datos de las entradas)
     //Ejemplo: entradasVendidasList.get(0) = [nombre, rut, cantidadEntradas, tipoEntrada, precioTotal]
