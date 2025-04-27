@@ -29,7 +29,10 @@ public class TeatroMoro {
     //Ejemplo: entradasVendidasList.get(0) = [nombre, rut, cantidadEntradas, tipoEntrada, precioTotal]
     //Ejmeplo: entradasVendidasList.get(0).get(0) = nombre
 
-    private static List<List<Object>> entradasVendidasList = new ArrayList<>(); // es static porque es de la clase por eso esta fuera del psvm// es static porque es de la clase por eso esta fuera del psvm
+    private static List<List<Object>> entradasVendidasList = new ArrayList<>();
+
+
+
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -182,16 +185,16 @@ public class TeatroMoro {
 
 
         // Calcular total
-        double precioFinal = (int) compra.get(1) * (1 - (double)compra.get(2));
+        int precioFinal = (int) ((int) compra.get(1) * (1 - (double)compra.get(2)));
         compra.add(precioFinal);
 
         // Confirmar compra
         System.out.println("\nResumen de compra:");
-        System.out.println("Tipo: " + compra.getFirst());
+        System.out.println("Tipo: " + compra.get(0));
         if (descuento > 0) {
-            System.out.println("Descuento aplicado: " + (descuento * 100) + "%");
+            System.out.println("Descuento aplicado: " + String.format("%.0f", (double)compra.get(2) * 100) + "%");
         }
-        System.out.println("Total a pagar: $" + String.format("%.0f", precioFinal));
+        System.out.println("Total a pagar: $" + (int)compra.get(3));
 
         String confirmación;
 
@@ -216,10 +219,15 @@ public class TeatroMoro {
                 System.out.println("-------------------------------");
                 System.out.println("          TEATRO MORO          ");
                 System.out.println("-------------------------------");
-                System.out.println("Ubicación: " + compra.getFirst());
-                System.out.println("");
+                System.out.println("Ubicación: " + compra.get(0));
+                System.out.println("Costo Base : $" + compra.get(1));
+                System.out.println("Descuento aplicado: " + String.format("%.0f", (double)compra.get(2) * 100) + "%");
+                System.out.println("Costo Final: $" + (int) compra.get(3));
+                System.out.println("-------------------------------");
+                System.out.println("Gracias por su visita al Teatro Moro");
+                System.out.println("-------------------------------");
 
-
+                entradasVendidasList.add(compra);
                 break;
             } else if (confirmación.equalsIgnoreCase("No")) {
                 System.out.println("Compra cancelada.");
