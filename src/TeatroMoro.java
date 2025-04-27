@@ -2,8 +2,6 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.List;
 import java.util.ArrayList;
-//System.out.println("Fecha: " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()));
-
 
 
 public class TeatroMoro {
@@ -23,11 +21,11 @@ public class TeatroMoro {
     private static int entradasVendidas = 0;
     private static int ingresosTotales = 0;
 
-    //Lista para almacenar las entradas vendidas con sus datos(dentro de esta lista habrán listas con los datos de las entradas)
+    //Lista para almacenar las entradas vendidas con sus datos(dentro de esta lista debe haber listas con los datos de las entradas)
     //Ejemplo: entradasVendidasList.get(0) = [nombre, rut, cantidadEntradas, tipoEntrada, precioTotal]
-    //Ejmeplo: entradasVendidasList.get(0).get(0) = nombre
+    //Ejemplo: entradasVendidasList.get(0).get(0) = nombre
 
-    private static List<List<Object>> entradasVendidasList = new ArrayList<>();
+    private static final List<List<Object>> entradasVendidasList = new ArrayList<>();
 
 
 
@@ -35,15 +33,15 @@ public class TeatroMoro {
     public static void main(String[] args) throws InterruptedException {
 
         Scanner scanner = new Scanner(System.in);
-        boolean salir = false; //Cuando no quiuera comprar mas entradas
+        boolean salir = false; //Cuando no quiera comprar más entradas
 
         //Menu principal
-
         while (!salir) {
+
             System.out.println("\n=== " + NOMBRE_TEATRO + " ===");
             TimeUnit.SECONDS.sleep(1);
             System.out.println("Entradas disponibles: " + entradasDisponibles);
-            TimeUnit.SECONDS.sleep(2);
+            TimeUnit.SECONDS.sleep(1);
 
             System.out.println("\n=== MENÚ PRINCIPAL ===");
             System.out.println("1. Comprar entradas");
@@ -52,19 +50,21 @@ public class TeatroMoro {
             System.out.println("4. Salir");
 
             TimeUnit.SECONDS.sleep(1);
-
             System.out.print("\nSeleccione una opción: ");
             String opcion = scanner.nextLine();
 
             switch (opcion) {
                 case "1":
+                    TimeUnit.SECONDS.sleep(1);
                     comprarEntradas(scanner);
                     break;
                 case "2":
-                    //imprimirUltimaBoleta();
+                    TimeUnit.SECONDS.sleep(1);
+                    imprimirUltimaBoleta();
                     break;
                 case "3":
-                    //resumenVentas();
+                    TimeUnit.SECONDS.sleep(1);
+                    resumenVentas();
                     break;
                 case "4":
                     salir = true;
@@ -78,10 +78,11 @@ public class TeatroMoro {
     } //MENU PRINCIPAL
 
 
+    //FUNCION PARA COMPRAR ENTRADAS
     private static void comprarEntradas(Scanner scanner) throws InterruptedException {
 
 
-        //Lista de la compra, la cual estara de tal forma
+        //Lista de la compra, la cual estará de tal forma
         //Ejemplo: compra.get(0) = [ZONA,CANT ENTRADAS ,COSTO BASE, DESCUENTO APLICADO, COSTO FINAL]
         List<Object> compra = new ArrayList<>();
 
@@ -91,6 +92,8 @@ public class TeatroMoro {
             System.out.println("No hay entradas disponibles para comprar.");
             return;
         }
+
+        TimeUnit.SECONDS.sleep(1);
 
         System.out.println("\nTipos de entradas disponibles:");
         System.out.println("1. VIP ($" + PRECIO_VIP + ")");
@@ -132,12 +135,10 @@ public class TeatroMoro {
         }
 
 
-
         // Validación de edad y descuentos
         int edad;
         boolean edadValida = false;
         double descuento = 0;
-        String tipoCliente = "Normal";
 
         while (!edadValida) {
 
@@ -152,7 +153,6 @@ public class TeatroMoro {
                     if (edad >= 60) {
                         descuento = 0.15;
                         compra.add(descuento);
-                        tipoCliente = "Tercera Edad";
                     } else {
                         // Preguntar si es estudiante
                         String esEstudiante;
@@ -163,7 +163,6 @@ public class TeatroMoro {
                             if (esEstudiante.equalsIgnoreCase("Si")) {
                                 descuento = 0.10;
                                 compra.add(descuento);
-                                tipoCliente = "Estudiante";
                                 break;
                             } else if (esEstudiante.equalsIgnoreCase("No")) {
                                 descuento = 0;
@@ -186,6 +185,7 @@ public class TeatroMoro {
         int precioFinal = (int) ((int) compra.get(1) * (1 - (double)compra.get(2)));
         compra.add(precioFinal);
 
+        TimeUnit.SECONDS.sleep(1);
         // Confirmar compra
         System.out.println("\nResumen de compra:");
         System.out.println("Tipo: " + compra.get(0));
@@ -194,15 +194,16 @@ public class TeatroMoro {
         }
         System.out.println("Total a pagar: $" + (int)compra.get(3));
 
-        String confirmación;
+        String confirmacion;
+        TimeUnit.SECONDS.sleep(1);
 
         do {
 
             System.out.print("\n¿Confirmar compra? (Si/No): ");
 
-            confirmación = scanner.nextLine();
+            confirmacion = scanner.nextLine();
 
-            if (confirmación.equalsIgnoreCase("Si")) {
+            if (confirmacion.equalsIgnoreCase("Si")) {
 
                 // Actualizar disponibilidad
                 entradasDisponibles -= 1;
@@ -212,7 +213,7 @@ public class TeatroMoro {
                 // Registrar última transacción
                 System.out.println("\n=== COMPRA EXITOSA ===");
                 System.out.println("Imprimiendo boleta...");
-                TimeUnit.SECONDS.sleep(2);
+                TimeUnit.SECONDS.sleep(3);
 
                 System.out.println("-------------------------------");
                 System.out.println("          TEATRO MORO          ");
@@ -226,19 +227,67 @@ public class TeatroMoro {
                 System.out.println("-------------------------------");
 
                 entradasVendidasList.add(compra);
+                TimeUnit.SECONDS.sleep(1);
                 break;
-            } else if (confirmación.equalsIgnoreCase("No")) {
+            } else if (confirmacion.equalsIgnoreCase("No")) {
                 System.out.println("Compra cancelada.");
                 break;
             } else {
                 System.out.println("Opción inválida. Intente nuevamente.");
             }
-        }while (!confirmación.equalsIgnoreCase("Si") && !confirmación.equalsIgnoreCase("No"));
+        }while (!confirmacion.equalsIgnoreCase("Si") && !confirmacion.equalsIgnoreCase("No"));
+    }
 
+    //FUNCION PARA IMPRIMIR LA ULTIMA BOLETA
+    @SuppressWarnings("SequencedCollectionMethodCanBeUsed")
+    private static void imprimirUltimaBoleta() throws InterruptedException {
+
+        TimeUnit.SECONDS.sleep(1);
+
+        if (entradasVendidasList.isEmpty()) {// Verifica si hay boletas para imprimir
+            System.out.println("No hay boletas para imprimir.");
+            return;
+        }
+
+        List<Object> ultimaBoleta = entradasVendidasList.get(entradasVendidasList.size() - 1); //Obtenemos la ultima boleta de la lista de entradas vendidas
+        //Creamos una lista de otra forma deberíamos estar llamando a la lista de entradasVendidasList.get(entradasVendidasList.size() - 1).get(0) y eso es muy largo
+
+        System.out.println("\n==== ULTIMA BOLETA ====");
+        System.out.println("-------------------------------");
+        System.out.println("          TEATRO MORO          ");
+        System.out.println("-------------------------------");
+        System.out.println("Ubicación: " + ultimaBoleta.get(0));
+        System.out.println("Costo Base : $" + ultimaBoleta.get(1));
+        System.out.println("Descuento aplicado: " + String.format("%.0f", (double)ultimaBoleta.get(2) * 100) + "%");
+        System.out.println("Costo Final: $" + ultimaBoleta.get(3));
+        System.out.println("-------------------------------");
+        System.out.println("Gracias por su visita al Teatro Moro");
+        System.out.println("-------------------------------");
 
     }
 
+    //FUNCION PARA RESUMEN DE VENTAS
+    private static void resumenVentas() throws InterruptedException { //debe mostrar ubicacion, precio inicial, descuento y precio final de forma ordenada
 
+        TimeUnit.SECONDS.sleep(1);
+        System.out.println("\n===== RESUMEN DE VENTAS =====");
+        System.out.println("-------------------------------");
+        System.out.println("          TEATRO MORO          ");
+        System.out.println("-------------------------------");
+        System.out.println("Entradas vendidas: " + entradasVendidas);
+        System.out.println("Entradas disponibles: " + entradasDisponibles);
+        System.out.println("Ingresos totales: $" + ingresosTotales);
+        System.out.println("-------------------------------");
 
+        for (List<Object> entrada : entradasVendidasList) {
+            System.out.println("Entrada #" + (entradasVendidasList.indexOf(entrada) + 1));
+            System.out.println("Ubicación: " + entrada.get(0));
+            System.out.println("Costo Base : $" + entrada.get(1));
+            System.out.println("Descuento aplicado: " + String.format("%.0f", (double)entrada.get(2) * 100) + "%");
+            System.out.println("Costo Final: $" + entrada.get(3));
+            System.out.println("-------------------------------");
+        }
+
+    }
 
 }
